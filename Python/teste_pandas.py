@@ -85,3 +85,51 @@ print(s1);
 print("-----------------------\n\n\n")
 
 print("Atribuindo valores para um Dataframe");
+
+# Salvando uma copia
+# Caso eu coloque apenas bkp_estado = data["ESTADO"]; eu não estou salvando os dados, apenas estou salvando a referencia
+
+bkp_estado = data["ESTADO"].copy();
+
+#Modificando todos os valores
+data["ESTADO"] = "SP";
+
+print(data.head());
+print(bkp_estado.head());
+
+#Mudando novamete para o backup
+data["ESTADO"] = bkp_estado;
+
+print(data.head());
+
+nrow = data.shape[0];
+ncol = data.shape[1]
+
+print(nrow);
+print(ncol);
+
+print("-----------------------\n\n\n")
+
+
+#Criando novas colunas
+
+print("Criando novas colunas");
+
+data["NOVA COLUNA"] = "DEFAULT";
+print(data.head());
+
+print("-----------------------\n\n\n")
+
+
+# Selecionando por indices
+
+print("Selecionando por indices\n");
+
+print(data.head(1));
+# Selecionando pelo indice
+print(data.iloc[1])
+# Selecionando por uma lista de indices
+print(data.iloc[[7,8,9]]);
+
+# Selecionando pelo linnha
+
