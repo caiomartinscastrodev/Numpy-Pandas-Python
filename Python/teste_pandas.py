@@ -131,5 +131,115 @@ print(data.iloc[1])
 # Selecionando por uma lista de indices
 print(data.iloc[[7,8,9]]);
 
-# Selecionando pelo linnha
+print("-----------------------\n\n\n")
 
+# Selecionando Colunas e LINHAS
+print("Selecionando coluna e UMA linha\n");
+
+print(data["ESTADO"][0]);
+
+print("\nSelecionando coluna e VARIAS linhas\n");
+
+print(data["ESTADO"][0:3]);
+
+print("\nSelecionando coluna e VARIAS linhas EXPECIFICAS\n");
+
+print(data["ESTADO"][[0,3,5,7]]);
+
+print("-----------------------\n\n\n")
+
+print("Selecionando LINHA e UMA COLUNA\n");
+
+print(data.iloc[0]["ESTADO"]);
+
+print("\nSelecionando LINHA e VARIAS colunas\n");
+
+print(data.iloc[0][["ESTADO" , "REGIÃO"]]);
+
+print("\nSelecionando VARIAS LINHA e VARIAS COLUNAS\n");
+
+print(data.iloc[0:3][["ESTADO" , "REGIÃO"]])
+
+print("\nOU\n");
+
+print(data.iloc[[0,1,2]][["ESTADO" , "REGIÃO"]]);
+
+print("-----------------------\n\n\n")
+
+print("Deletando colunas | Salvando o DataFrame");
+
+print(data.columns);
+
+del data["Unnamed: 0"];
+print(data.columns);
+
+#data.to_csv("./files/Dataframe.csv" , sep=";");
+
+print("-----------------------\n\n\n")
+
+print("Filtrando dados");
+
+df = pd.read_csv("./files/Dataframe.csv" , sep=";");
+print(df.columns);
+
+# Filtro direto
+print(df[df["ESTADO"] == "SAO PAULO"]);
+
+
+# Filtro com &
+
+print(df[(df["ESTADO"] == "RIO DE JANEIRO") & (df["PRODUTO"] == "GASOLINA COMUM")]);
+
+# Filtro com |
+
+print(df[(((df["ESTADO"] == "SAO PAULO") | (df["ESTADO"] == "RIO DE JANEIRO")) & (df["PRODUTO"] == "GASOLINA COMUM"))]);
+
+print("-----------------------\n\n\n")
+
+print("Convertendo dados");
+
+df_prev1 = df.copy();
+
+print(df_prev1.info());
+
+df_prev1["DATA INICIAL"] = pd.to_datetime(df_prev1["DATA INICIAL"]);
+df_prev1["DATA FINAL"] = pd.to_datetime(df_prev1["DATA FINAL"]);
+
+print(df_prev1.info());
+
+df_prev1["PREÇO MÍNIMO DISTRIBUIÇÃO"] = pd.to_numeric(df_prev1["PREÇO MÍNIMO DISTRIBUIÇÃO"] , errors="coerce");
+df_prev1["PREÇO MÉDIO DISTRIBUIÇÃO"] = pd.to_numeric(df_prev1["PREÇO MÉDIO DISTRIBUIÇÃO"] , errors="coerce");
+df_prev1["PREÇO MÁXIMO DISTRIBUIÇÃO"] = pd.to_numeric(df_prev1["PREÇO MÁXIMO DISTRIBUIÇÃO"] , errors="coerce");
+df_prev1["PREÇO MÍNIMO REVENDA"] = pd.to_numeric(df_prev1["PREÇO MÍNIMO REVENDA"] , errors="coerce");
+df_prev1["PREÇO MÉDIO REVENDA"] = pd.to_numeric(df_prev1["PREÇO MÉDIO REVENDA"] , errors="coerce");
+df_prev1["PREÇO MÁXIMO REVENDA"] = pd.to_numeric(df_prev1["PREÇO MÁXIMO REVENDA"] , errors="coerce");
+
+print(df_prev1.info())
+
+#print(df_prev1[df_prev1["PREÇO MÍNIMO DISTRIBUIÇÃO"].isnull()]["PREÇO MÍNIMO DISTRIBUIÇÃO"]);
+
+print("-----------------------\n\n\n")
+
+print("Tirando valores vazios");
+
+# Preenchendo qualquer valor NULL com 0
+df_t1 = df_prev1.copy();
+df_t1 = df_t1.fillna(0);
+print(df_t1.info())
+
+# Preenchendo valores expecificos NULL com 0
+df_t2 = df_prev1.copy();
+df_t2 = df_t2.fillna(
+    value={
+        "PREÇO MÍNIMO DISTRIBUIÇÃO": 0,
+        "PREÇO MÉDIO DISTRIBUIÇÃO": 0,
+        "PREÇO MÁXIMO DISTRIBUIÇÃO": 0
+    }
+);
+print(df_t2.info());
+
+# Removendo qualquer series/registro/linnha que tenha null
+
+df_t3 = df_prev1.copy();
+df_t3 = df_t3.dropna();
+print(df_t3.info())
